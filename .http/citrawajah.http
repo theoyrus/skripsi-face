@@ -1,0 +1,28 @@
+@BASE_URL=http://localhost:8000
+@TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc1MTYwNzk5LCJqdGkiOiI2YTVhYzlhZTFiOGI0MjczODE0ZjBmNzY3MWEzY2E5OSIsInVzZXJfaWQiOjJ9.b-0SHwJ_AuivdqSCarhmfdfIMgZJlRzvgaQexqhqI_w
+@KRY_ID=3
+
+### List Citra Wajah
+GET {{BASE_URL}}/facerecog/citrawajah HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Accept: application/json
+
+### Tambah Citra Wajah
+POST {{BASE_URL}}/facerecog/citrawajah HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/x-www-form-urlencoded
+
+noinduk=201407367263&nama=Budiman&user=1
+
+### Detail Citra Wajah
+GET {{BASE_URL}}/facerecog/citrawajah/{{KRY_ID}} HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Accept: application/json
+
+### Update Partial Citra Wajah
+PATCH {{BASE_URL}}/facerecog/citrawajah/{{KRY_ID}} HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+noinduk=20140700123

@@ -1,0 +1,22 @@
+*.pyc
+__pycache__/
+
+db.sqlite3
+.env
+.venv/
+
+# deployment
+logs/
+deploy/gunicorn.conf.py
+
+# static files
+# public/
+
+.git/
+
+# pycharm
+.idea/
+
+# coverage result
+.coverage
+/coverage/

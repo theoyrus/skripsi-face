@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==3.2.*"
+django-environ = "*"
+whitenoise = "*"
+djangorestframework = "*"
+djoser = "*"
+djangorestframework-simplejwt = "*"
+mysqlclient = "*"
+drf-spectacular = "*"
+django-debug-toolbar = "*"
+django-filter = "*"
+gunicorn = "*"
+django-cors-headers = "*"
+pillow = "*"
+opencv-contrib-python = "==4.5.5.62"
+django-jazzmin = "*"
+drf-standardized-errors = "*"
+
+[dev-packages]
+black = "*"
+
+[requires]
+python_version = "3.10"

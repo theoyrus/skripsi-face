@@ -1,0 +1,9 @@
+@BASE_URL=http://localhost:8000
+@TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjczOTM0OTAyLCJqdGkiOiJkMzlhY2I5MjNmZjM0N2M1OWU0MWJjYWE4NWI5NjlhYyIsInVzZXJfaWQiOjF9.XpjdbGOa4XBsGDAljSD70YmT-eMWg3f3TPMBcso661I
+
+### Tambah User
+POST {{BASE_URL}}/authz/user HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/x-www-form-urlencoded
+
+email=anu@mail.com&username=anu&first_name=anu&last_name=blabla&password=anublabla&group=

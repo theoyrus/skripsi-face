@@ -1,0 +1,33 @@
+@BASE_URL=http://localhost:8000
+@TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc1MTYwNzk5LCJqdGkiOiI2YTVhYzlhZTFiOGI0MjczODE0ZjBmNzY3MWEzY2E5OSIsInVzZXJfaWQiOjJ9.b-0SHwJ_AuivdqSCarhmfdfIMgZJlRzvgaQexqhqI_w
+@KRY_ID=3
+
+### Karyawan saat ini
+GET {{BASE_URL}}/karyawan/me HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Accept: application/json
+
+### List Karyawan
+GET {{BASE_URL}}/karyawan HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Accept: application/json
+
+### Tambah Karyawan
+POST {{BASE_URL}}/karyawan HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/x-www-form-urlencoded
+
+noinduk=201407367263&nama=Budiman&user=1
+
+### Detail Karyawan
+GET {{BASE_URL}}/karyawan/{{KRY_ID}} HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Accept: application/json
+
+### Update Partial Karyawan
+PATCH {{BASE_URL}}/karyawan/{{KRY_ID}} HTTP/1.1
+Authorization: Bearer {{TOKEN}}
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+noinduk=20140700123

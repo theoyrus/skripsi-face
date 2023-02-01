@@ -1,0 +1,23 @@
+{% load i18n %}
+<title>Account Activation</title>
+{% block html_body %}
+<div align="center">
+    <h1>Account Activation</h1>
+    {% if data.success %}
+    <script>
+        setTimeout(() => {
+            window.close()
+        }, 3000);
+    </script>
+    {% trans data.detail as activation_message %}
+    {% blocktrans %}
+    Horray!
+    {{ activation_message }}
+    You can close this window/tab
+    {% endblocktrans %}
+    {% else %}
+    {% trans "Opps :( Activation link maybe expired " %}
+    {% endif %}
+    {% comment %} {{ data.detail }} {% endcomment %}
+</div>
+{% endblock html_body %}

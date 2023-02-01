@@ -1,0 +1,37 @@
+@BASE_URL=http://localhost:8000
+@AUTH_REFRESH=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY3Mzk1MzIzNiwianRpIjoiODBlYTVhY2JjNDdkNGU1MWE0OGIzZjI1NzBlNWMwOTMiLCJ1c2VyX2lkIjoxfQ._ViI9fwE2PNrSAS18W3p2eh764IT0WrZBbN5VoNiEpA
+
+### Login
+POST {{BASE_URL}}/auth/jwt/create HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+# email=the.oyrus@gmail.com&password=rahasiadong
+email=arbi.diginetmedia@gmail.com&password=rahasiadong
+
+### Login (Form Data)
+POST {{BASE_URL}}/auth/jwt/create HTTP/1.1
+Content-Type: multipart/form-data; boundary=---FD4T0NLYK3Y
+
+-----FD4T0NLYK3Y
+Content-Disposition: form-data; name="email"
+
+the.oyrus@gmail.com
+-----FD4T0NLYK3Y
+Content-Disposition: form-data; name="password"
+
+rahasiadong
+-----FD4T0NLYK3Y--
+
+### Refresh Token with JSON
+POST {{BASE_URL}}/auth/jwt/refresh HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{"refresh": "{{AUTH_REFRESH}}"}
+
+### Refresh Token with Url Encode
+POST {{BASE_URL}}/auth/jwt/refresh HTTP/1.1
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+refresh={{AUTH_REFRESH}}
