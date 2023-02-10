@@ -9,6 +9,15 @@ help: ## Show this help
 env:
 	pip install --user pipenv
 
+prod-env: ## Read Production Env
+	@cat .prod.env
+
+prod-run: ## Run production app inside docker
+	docker-compose --env-file=.prod.env up -d
+
+prod-stop: ## Stop production app inside docker
+	docker-compose --env-file=.prod.env down
+
 shell: ## Enter the virtual environment
 	pipenv shell
 

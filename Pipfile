@@ -17,9 +17,9 @@ django-filter = "*"
 gunicorn = "*"
 django-cors-headers = "*"
 pillow = "*"
-opencv-contrib-python = "==4.5.5.62"
 django-jazzmin = "*"
 drf-standardized-errors = "*"
+opencv-contrib-python-headless = "~=4.5"
 
 [dev-packages]
 black = "*"
