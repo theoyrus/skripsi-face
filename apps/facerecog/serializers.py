@@ -11,7 +11,7 @@ class CitraWajahKaryawanSerializer(BaseHyperlinkedModelSerializer):
     class Meta:
         model = CitraWajah
         # fields = "__all__"
-        fields = ("url", "karyawan", "nama", "created", "updated")
+        fields = ("url", "citrawajah_id", "karyawan", "nama", "created", "updated")
 
 
 class CitraWajahUploadSerializer(serializers.ModelSerializer):

@@ -2,7 +2,10 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
 
+
+from .filters import KaryawanFilter
 from .models import Divisi, Karyawan
 from .permissions import KaryawanModelPermissions
 from .serializers import (
@@ -24,6 +27,8 @@ class KaryawanViewSet(viewsets.ModelViewSet):
 
     queryset = Karyawan.objects.all()
     serializer_class = KaryawanSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = KaryawanFilter
     # serializer_class = KaryawanCitraSerializer
     # permission_classes = [permissions.IsAuthenticated]
 

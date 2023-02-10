@@ -54,7 +54,7 @@ class KaryawanMeUpdateSerializer(serializers.ModelSerializer):
         fields = ("noinduk", "nama", "user", "divisi")
 
 
-class KaryawanMeSerializer(serializers.ModelSerializer):
+class KaryawanMeSerializer(BaseModelSerializer):
     user = UserSerializer(read_only=True)
     # user_id = serializers.PrimaryKeyRelatedField(
     #     queryset=User.objects.all(), required=True, write_only=True
@@ -75,7 +75,7 @@ class KaryawanSerializer(BaseModelSerializer):
     user = serializers.StringRelatedField()
     user = UserSerializer(context={"is_data": False})
     divisi = DivisiSerializer(context={"is_data": False})
-    citra_karyawan = CitraWajahKaryawanSerializer(many=True, read_only=True)
+    # citra_karyawan = CitraWajahKaryawanSerializer(many=True, read_only=True)
 
     class Meta:
         model = Karyawan
@@ -86,7 +86,7 @@ class KaryawanSerializer(BaseModelSerializer):
             "nama",
             "user",
             "divisi",
-            "citra_karyawan",
+            # "citra_karyawan",
         ]
         # fields = "__all__"
 

@@ -1,16 +1,16 @@
 from datetime import timedelta
-from ..settings import env, STATIC_URL
+from ..settings import env, random_secret, STATIC_URL
 from django.urls import reverse_lazy
 
 
 # Simple JWT Implementation
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": True,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": env.str("SECRET_KEY"),
+    "SIGNING_KEY": env.str("SECRET_KEY", default=random_secret),
     "VERIFYING_KEY": None,
     "AUDIENCE": None,
     "ISSUER": None,

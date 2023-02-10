@@ -6,7 +6,7 @@ class AppRestNumPagination(PageNumberPagination):
     # https://stackoverflow.com/a/64949239
     # override page numbering DRF
     page_size = 10  # default limit per page
-    page_query_param = "offset"  # this is the "page"
+    page_query_param = "page"  # this is the "page"
     page_size_query_param = "limit"  # this is the "page_size"
     max_page_size = 100
 

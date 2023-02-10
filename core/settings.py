@@ -17,6 +17,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import sys
 import environ
+from django.core.management.utils import get_random_secret_key
+
+random_secret = get_random_secret_key()
 
 root = environ.Path(__file__) - 2  # root app
 proj_dir = environ.Path(__file__) - 2  # root project
@@ -39,7 +42,7 @@ sys.path.insert(0, APPS_DIR)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = "django-insecure-0yg-ku#=d^#%1b*&3gq%ll^35y5%(_4pv-9^=#nz9&!7qn^_8&"
-SECRET_KEY = env.str("SECRET_KEY")
+SECRET_KEY = env.str("SECRET_KEY", default=random_secret)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
@@ -202,7 +205,7 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": True,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": env.str("SECRET_KEY"),
+    "SIGNING_KEY": env.str("SECRET_KEY", default=random_secret),
     "VERIFYING_KEY": None,
     "AUDIENCE": None,
     "ISSUER": None,

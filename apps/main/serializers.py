@@ -11,9 +11,9 @@ class BaseModelSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not self.context:
-            self._context = getattr(self.Meta, 'context', {})
+            self._context = getattr(self.Meta, "context", {})
         try:
-            self.is_data = self.context['is_data']
+            self.is_data = self.context["is_data"]
         except KeyError:
             self.is_data = True
 
@@ -23,6 +23,10 @@ class BaseModelSerializer(serializers.ModelSerializer):
             return rep
         elif self.context["view"].action in ["create", "retrieve", "update", "destroy"]:
             return {"data": rep}
+        elif self.context["request"].method in ["GET"] and self.context[
+            "view"
+        ].action not in ["list"]:
+            return {"data": rep}
         return rep
 
 
@@ -30,9 +34,9 @@ class BaseHyperlinkedModelSerializer(serializers.HyperlinkedModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not self.context:
-            self._context = getattr(self.Meta, 'context', {})
+            self._context = getattr(self.Meta, "context", {})
         try:
-            self.is_data = self.context['is_data']
+            self.is_data = self.context["is_data"]
         except KeyError:
             self.is_data = True
 

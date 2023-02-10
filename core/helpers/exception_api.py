@@ -65,6 +65,7 @@ def error404(request, exception):
             "status_code": 404,
             "status": http_code_to_phrase[404],
             "message": message if len(message) < 100 else http_code_to_message[404],
+            "data": message if len(message) < 100 else http_code_to_message[404],
         },
     }
     return JsonResponse(response_data, status=404)
@@ -77,6 +78,7 @@ def error500(request, *args, **kwargs):
             "status_code": 500,
             "status": http_code_to_phrase[500],
             "message": http_code_to_message[500],
+            "data": http_code_to_message[500],
         },
     }
     return JsonResponse(response_data, status=500)
