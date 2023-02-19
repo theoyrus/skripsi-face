@@ -91,8 +91,23 @@ class KaryawanSerializer(BaseModelSerializer):
         # fields = "__all__"
 
 
-class KaryawanCitraSerializer(serializers.ModelSerializer):
+class KaryawanRecognizeSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    divisi = serializers.StringRelatedField()
 
+    class Meta:
+        model = Karyawan
+        fields = [
+            "url",
+            "karyawan_id",
+            "noinduk",
+            "nama",
+            "user",
+            "divisi",
+        ]
+
+
+class KaryawanCitraSerializer(serializers.ModelSerializer):
     from facerecog.serializers import CitraWajahKaryawanSerializer
 
     citra_wajah = CitraWajahKaryawanSerializer(many=True, read_only=True)

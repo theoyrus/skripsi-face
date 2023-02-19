@@ -10,7 +10,8 @@ from .models import Karyawan
 
 class KaryawanAdmin(admin.ModelAdmin):
     # list_display = [field.name for field in Karyawan._meta.get_fields()]
-    list_display = ["karyawan_id", "user", "noinduk", "nama"]
+    list_display = ("karyawan_id", "user", "noinduk", "nama")
+    list_filter = ("user", "noinduk", "nama")
 
 
 admin.site.register(Karyawan, KaryawanAdmin)

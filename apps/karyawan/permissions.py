@@ -36,4 +36,5 @@ class KaryawanModelPermissions(permissions.DjangoModelPermissions):
                         or request.user.has_perm("karyawan.delete_karyawan")
                     )
         except ObjectDoesNotExist:
-            return False
+            # jika user tidak punya relasi karyawan, tetap bisa asalkan superuser
+            return request.user.is_superuser
