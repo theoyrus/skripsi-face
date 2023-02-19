@@ -19,6 +19,7 @@ LOCAL_APPS = [
     "apps.karyawan",
     "apps.facerecog",
     "apps.presensi",
+    "apps.master",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -71,7 +72,7 @@ EMAIL_USE_TLS = False
 # EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = env.str("EMAIL_DEF_FROM", default=EMAIL_HOST_USER)
 
-TIME_ZONE = "Asia/Jakarta"
+# TIME_ZONE = "Asia/Jakarta"
 
 from ..settings import storage_root
 

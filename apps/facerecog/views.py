@@ -8,6 +8,8 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.serializers import ValidationError
+from rest_framework.exceptions import NotFound
 
 from .serializers import (
     CitraWajah,
@@ -114,7 +116,8 @@ class CitraWajahRecognize(APIView):
     def post(self, request, format=None):
         serializer = CitraWajahRecognizeSerializer(data=request.data)
         if not serializer.is_valid():
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            raise ValidationError(serializer.errors)
+
         citra = request.FILES["citra"]
         from .recognizer import FacialRecognizer
 
@@ -131,22 +134,28 @@ class CitraWajahRecognize(APIView):
             f"predicted id: {id} confidence: {confidence} percent: {percent}"
         )
         from apps.karyawan.models import Karyawan
-        from apps.karyawan.serializers import KaryawanSerializer
+        from apps.karyawan.serializers import KaryawanRecognizeSerializer
 
         karyawan = Karyawan.objects.filter(karyawan_id=id)
         serializer_context = {
             "request": request,
         }
-        serializer = KaryawanSerializer(karyawan, many=True, context=serializer_context)
+        serializer = KaryawanRecognizeSerializer(
+            karyawan, many=True, context=serializer_context
+        )
         httpstatus = status.HTTP_200_OK
         if id == 0:
-            httpstatus = status.HTTP_404_NOT_FOUND
+            raise NotFound(detail="Wajah tidak dikenali")
+
         return Response(
             {
                 "data": {
                     "confidence": confidence,
                     "percent": percent,
-                    "karyawan": serializer.data,
+                    "karyawan": serializer.data[0]
+                    if serializer.data.__len__() > 0
+                    else None,
+                    # "karyawan": karyawan,
                 }
             },
             status=httpstatus,

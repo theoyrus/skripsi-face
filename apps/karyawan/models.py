@@ -37,7 +37,7 @@ class Karyawan(BaseModel):
 
     class Meta:
         db_table = "karyawan"
-        ordering = ["created"]
+        ordering = ["nama"]
         verbose_name_plural = "karyawan"
 
     def __str__(self):
