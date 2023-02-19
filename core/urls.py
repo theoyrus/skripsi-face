@@ -76,6 +76,7 @@ urlpatterns = [
     # re_path(r"main", include("apps.main.urls")),
     re_path(r"karyawan/", include("apps.karyawan.urls")),
     re_path(r"facerecog/", include("facerecog.urls")),
+    re_path(r"presensi/", include("presensi.urls")),
     # ================
     # Third Party Libs (optional)
     # djoser

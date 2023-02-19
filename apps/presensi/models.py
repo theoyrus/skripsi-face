@@ -16,8 +16,8 @@ class Presensi(BaseModel):
         Karyawan, on_delete=models.DO_NOTHING, related_name="presensi_karyawan"
     )
     tanggal = models.DateField(null=False, blank=False)
-    waktu_hadir = models.TimeField(null=True, blank=True)
-    waktu_pulang = models.TimeField(null=True, blank=True)
+    waktu_hadir = models.DateTimeField(null=True, blank=True)
+    waktu_pulang = models.DateTimeField(null=True, blank=True)
     jenis = models.CharField(max_length=10, choices=JENIS_PRESENSI)
 
     class Meta:
