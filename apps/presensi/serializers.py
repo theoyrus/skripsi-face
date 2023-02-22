@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 import pytz, datetime
 
-from apps.main.serializers import BaseHyperlinkedModelSerializer
+from apps.main.serializers import BaseHyperlinkedModelSerializer, BaseModelSerializer
 from .models import Presensi
 from apps.karyawan.serializers import KaryawanSerializer
 from core.helpers.preferensi import get_userpref_timezone
@@ -124,3 +124,36 @@ class KehadiranRekamSerializer(serializers.ModelSerializer):
             validated_data["waktu_pulang"] = waktu_pulang_utc
 
         return super().update(instance, validated_data)
+
+
+class KehadiranHariIniSerializer(BaseModelSerializer):
+    karyawan = KaryawanSerializer(context={"is_data": False})
+
+    class Meta:
+        model = Presensi
+        fields = (
+            "url",
+            "presensi_id",
+            "karyawan",
+            "tanggal",
+            "waktu_hadir",
+            "waktu_pulang",
+            "created",
+            "updated",
+        )
+
+    def to_representation(self, instance):
+        self.fields["waktu_hadir"] = serializers.DateTimeField(
+            default_timezone=get_userpref_timezone(self)
+        )
+        self.fields["waktu_pulang"] = serializers.DateTimeField(
+            default_timezone=get_userpref_timezone(self)
+        )
+        return super().to_representation(instance)
+
+
+class KehadiranBulanIniSerializer(serializers.Serializer):
+    karyawan_id = serializers.IntegerField()
+    hadir = serializers.IntegerField()
+    terlambat = serializers.IntegerField()
+    tidak_hadir = serializers.IntegerField()
