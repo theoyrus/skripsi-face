@@ -72,12 +72,16 @@ class KehadiranRekamSerializer(serializers.ModelSerializer):
 
         karyawan = data["karyawan_id"]
         jenis = data["jenis"]
-        tanggal = timezone.now().date()
-        data["tanggal"] = tanggal
+        tanggal = timezone.now().date()  # ini UTC
+        # anggap kita pakai gmt 7, jakarta
+        today_gmt7 = (
+            timezone.now().astimezone(timezone.pytz.timezone("Asia/Jakarta")).date()
+        )
+        data["tanggal"] = today_gmt7
 
         # Cek apakah presensi sudah ada untuk karyawan dan tanggal saat ini
         try:
-            presensi = Presensi.objects.get(karyawan=karyawan, tanggal=tanggal)
+            presensi = Presensi.objects.get(karyawan=karyawan, tanggal=today_gmt7)
         except Presensi.DoesNotExist:
             presensi = None
 
