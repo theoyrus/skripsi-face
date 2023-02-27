@@ -18,7 +18,7 @@ class FacialRecognizer:
         self.classifier = ocv.face.LBPHFaceRecognizer_create()
         self.classifier_path = f"{ASSETS_ROOT}/{classifier_path}"
 
-    def prepare_image(self, img):
+    def prepare_image_old(self, img):
         # menyiapkan citra yg diinput hanya citra grayscale & terdapat wajah
         img = img.convert("L")
         citra = np.asarray(img, "uint8")
@@ -27,6 +27,20 @@ class FacialRecognizer:
             return Image.fromarray(wajah)
         else:
             raise RecognizerError("Tidak ada wajah terdeteksi")
+
+    def prepare_image(self, img):
+        # Load gambar dan konversi ke numpy array
+        img = np.asarray(img.convert("L"), dtype=np.uint8)
+
+        # Ekstraksi wajah
+        wajah = self.extract_wajah(img)
+
+        # Cek apakah berhasil ekstraksi wajah
+        if len(wajah) == 0:
+            raise RecognizerError("Tidak ada wajah terdeteksi")
+
+        # Konversi kembali ke PIL Image
+        return Image.fromarray(wajah)
 
     def extract_wajah(self, img):
         classifier_wajah = ocv.CascadeClassifier(
