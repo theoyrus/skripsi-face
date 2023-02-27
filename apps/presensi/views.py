@@ -76,9 +76,14 @@ class KehadiranViewSet(ModelViewSet):
         if self.action in ["hariini"]:
             try:
                 tanggal = timezone.now().date()
+                tanggal_gmt7 = (
+                    timezone.now()
+                    .astimezone(timezone.pytz.timezone("Asia/Jakarta"))
+                    .date()
+                )
                 return self.queryset.get(
                     karyawan=self.request.user.user_karyawan.karyawan_id,
-                    tanggal=tanggal,
+                    tanggal=tanggal_gmt7,
                 )
             except ObjectDoesNotExist:
                 raise NotFound(detail="Belum ada rekaman presensi hari ini")
