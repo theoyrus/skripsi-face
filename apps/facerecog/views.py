@@ -112,6 +112,12 @@ class CitraWajahRecognize(APIView):
     """
 
     parser_class = (FileUploadParser,)
+    serializer_class = CitraWajahRecognizeSerializer
+
+    def get(self, request):
+        return Response(
+            {"message": "POST file field bernama citra untuk recognize wajah"}
+        )
 
     def post(self, request, format=None):
         serializer = CitraWajahRecognizeSerializer(data=request.data)

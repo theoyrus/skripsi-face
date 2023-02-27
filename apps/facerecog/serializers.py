@@ -14,6 +14,10 @@ class CitraWajahKaryawanSerializer(BaseHyperlinkedModelSerializer):
         fields = ("url", "citrawajah_id", "karyawan", "nama", "created", "updated")
 
 
+MAX_IMAGE_SIZE = 2 * 1024 * 1024  # maksimum 2 MB
+MAX_IMAGE_SIZE_MB = MAX_IMAGE_SIZE / 1024 / 1024
+
+
 class CitraWajahUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = CitraWajah
@@ -26,6 +30,13 @@ class CitraWajahUploadSerializer(serializers.ModelSerializer):
             self.fields["karyawan"].required = True
         else:
             self.fields.pop("karyawan")
+
+    def validate_nama(self, nama):
+        if nama.size > MAX_IMAGE_SIZE:
+            raise serializers.ValidationError(
+                f"Ukuran citra terlalu besar, maksimal {MAX_IMAGE_SIZE_MB} MB"
+            )
+        return nama
 
     def validate(self, data):
         request = self.context["request"]
@@ -41,4 +52,11 @@ class CitraWajahUploadSerializer(serializers.ModelSerializer):
 
 
 class CitraWajahRecognizeSerializer(serializers.Serializer):
-    citra = serializers.FileField()
+    citra = serializers.ImageField()
+
+    def validate_citra(self, citra):
+        if citra.size > MAX_IMAGE_SIZE:
+            raise serializers.ValidationError(
+                f"Ukuran citra terlalu besar, maksimal {MAX_IMAGE_SIZE_MB} MB"
+            )
+        return citra
