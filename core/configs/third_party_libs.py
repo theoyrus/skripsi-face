@@ -100,3 +100,5 @@ JAZZMIN_UI_TWEAKS = {
 DRF_STANDARDIZED_ERRORS = {
     "EXCEPTION_FORMATTER_CLASS": "core.helpers.exception_api.ApiExceptionFormatter"
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
