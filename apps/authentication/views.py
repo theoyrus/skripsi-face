@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, filters
 
 from .serializers import (
     Group,
@@ -26,6 +26,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     # serializer_class = UserSerializer
     permission_classes = [permissions.IsAdminUser]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["username", "email", "full_name"]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
