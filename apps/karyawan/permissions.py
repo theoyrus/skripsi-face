@@ -7,6 +7,21 @@ class IsOwner(permissions.BasePermission):
         return obj.user == request.user
 
 
+class DivisiModelPermissions(permissions.DjangoModelPermissions):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS or view.action == "list":
+            return request.user.has_perm("karyawan.view_divisi")
+        else:
+            if view.action == "create":
+                return request.user.has_perm("karyawan.add_divisi")
+            elif view.action in ["update", "partial_update"]:
+                return request.user.has_perm("karyawan.change_divisi")
+            elif view.action == "destroy":
+                return request.user.has_perm("karyawan.delete_divisi")
+
+        return request.user.is_superuser
+
+
 class KaryawanModelPermissions(permissions.DjangoModelPermissions):
     # Atur permission untuk data karyawan sesuai hak akses group & action
     def has_permission(self, request, view):

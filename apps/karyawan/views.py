@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .filters import KaryawanFilter
 from .models import Divisi, Karyawan
-from .permissions import KaryawanModelPermissions
+from .permissions import DivisiModelPermissions, KaryawanModelPermissions
 from .serializers import (
     DivisiCreateSerializer,
     DivisiSerializer,
@@ -88,3 +88,7 @@ class DivisiViewSet(viewsets.ModelViewSet):
         if self.action in ["create", "update"]:
             return DivisiCreateSerializer
         return DivisiSerializer
+
+    def get_permissions(self):
+        permission_classes = [permissions.IsAuthenticated, DivisiModelPermissions]
+        return [permission() for permission in permission_classes]
