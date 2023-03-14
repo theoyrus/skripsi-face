@@ -21,6 +21,7 @@ class KehadiranSerializer(BaseHyperlinkedModelSerializer):
             "presensi_id",
             "karyawan",
             "tanggal",
+            "jenis",
             "waktu_hadir",
             "waktu_pulang",
             "created",
@@ -113,7 +114,7 @@ class KehadiranRekamSerializer(serializers.ModelSerializer):
 
         # Anggap timezone dari client/user Asia/Jakarta
         # timezone_user = pytz.timezone("Asia/Jakarta")
-        timezone_user = get_userpref_timezone()
+        timezone_user = get_userpref_timezone(self)
 
         if waktu_hadir:
             waktu_hadir_tz = timezone_user.localize(waktu_hadir.replace(tzinfo=None))
