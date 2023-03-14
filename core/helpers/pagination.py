@@ -11,6 +11,18 @@ class AppRestNumPagination(PageNumberPagination):
     max_page_size = 100
 
     def get_paginated_response(self, data):
+        req = self.request
+        limit = int(req.GET.get("limit", self.page_size))
+        page = int(req.GET.get("page", 1))
+
+        # hitung index awal & akhir dari queryset
+        start = (page - 1) * limit
+        end = page * limit
+
+        # tambahkan prop num di setiap item di data
+        for i, item in enumerate(data[0:limit], start=start):
+            item["num"] = i + 1
+
         return Response(
             {
                 "meta": {

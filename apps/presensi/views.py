@@ -2,7 +2,7 @@ from apps import karyawan
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import permissions, status
+from rest_framework import permissions, status, filters
 from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
@@ -29,7 +29,8 @@ class KehadiranViewSet(ModelViewSet):
     serializer_class = KehadiranSerializer
     queryset = Presensi.objects.all()
     permission_classes = [permissions.IsAuthenticated, PresensiKehadiranPermission]
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ["karyawan__nama"]
     filterset_class = KehadiranFilter
 
     def get_serializer_class(self):
