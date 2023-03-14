@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, status, permissions
+from rest_framework import generics, status, permissions, filters
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -18,6 +18,8 @@ from .serializers import (
     CitraWajahUploadSerializer,
 )
 from .permissions import CitrawajahModelPermissions
+from .filters import CitraWajahFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 # Create your views here.
@@ -33,6 +35,10 @@ class CitraWajahViewset(ModelViewSet):
     parser_class = (FileUploadParser,)
     serializer_class = CitraWajahKaryawanSerializer
     permission_classes = [permissions.IsAuthenticated, CitrawajahModelPermissions]
+
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_class = CitraWajahFilter
+    search_fields = ["karyawan__nama", "nama"]
 
     def get_serializer_class(self):
         if self.action in ["create"]:
