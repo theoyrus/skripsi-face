@@ -1,12 +1,20 @@
 from rest_framework import serializers
 from apps.facerecog.models import CitraWajah
+from apps.karyawan.models import Karyawan
 from apps.karyawan.serializers import KaryawanMeSerializer
 from apps.main.serializers import BaseHyperlinkedModelSerializer, BaseModelSerializer
+
+
+class KaryawanSerializer(BaseHyperlinkedModelSerializer):
+    class Meta:
+        model = Karyawan
+        fields = ("url", "divisi_id", "noinduk", "nama")
 
 
 class CitraWajahKaryawanSerializer(BaseHyperlinkedModelSerializer):
     # karyawan_nama = serializers.ReadOnlyField(source="karyawan.nama")
     # karyawan = KaryawanMeSerializer()
+    karyawan = KaryawanSerializer()
 
     class Meta:
         model = CitraWajah
