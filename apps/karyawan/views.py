@@ -1,4 +1,4 @@
-from rest_framework import permissions, status, viewsets
+from rest_framework import permissions, status, viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -27,7 +27,8 @@ class KaryawanViewSet(viewsets.ModelViewSet):
 
     queryset = Karyawan.objects.all()
     serializer_class = KaryawanSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ["nama"]
     filterset_class = KaryawanFilter
     # serializer_class = KaryawanCitraSerializer
     # permission_classes = [permissions.IsAuthenticated]
@@ -82,6 +83,8 @@ class DivisiViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Divisi.objects.all()
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["kode", "nama"]
     # serializer_class = DivisiSerializer
 
     def get_serializer_class(self):
