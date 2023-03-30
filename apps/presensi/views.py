@@ -2,7 +2,7 @@ from apps import karyawan
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import permissions, status, filters
+from rest_framework import permissions, status, filters, views
 from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
@@ -14,6 +14,7 @@ from .serializers import (
     KehadiranRekamSerializer,
     KehadiranHariIniSerializer,
     KehadiranBulanIniSerializer,
+    KehadiranRekapSerializer,
 )
 from .permissions import PresensiKehadiranPermission
 from .filters import KehadiranFilter
@@ -121,3 +122,35 @@ class KehadiranViewSet(ModelViewSet):
             qs = Presensi.objects.raw(sql, params)
             serializer = KehadiranBulanIniSerializer(qs, many=True)
             return Response({"data": serializer.data[0]})
+
+
+class KehadiranRekapMingguIni(views.APIView):
+    def get(self, request, *args, **kwargs):
+        """
+        API endpoint kehadiran minggu ini
+        """
+        if request.method == "GET":
+            sql = """
+            SELECT
+            presensi_id,
+            hari,
+            tgl.tanggal,
+            COUNT(presensi.waktu_hadir) AS hadir,
+            40 - COUNT(presensi.waktu_hadir) AS tidak_hadir
+            FROM (
+            SELECT 'Senin' AS hari, DATE_ADD(CURDATE(), INTERVAL(1-DAYOFWEEK(CURDATE())) DAY) AS tanggal
+            UNION SELECT 'Selasa', DATE_ADD(CURDATE(), INTERVAL(2-DAYOFWEEK(CURDATE())) DAY) AS tanggal
+            UNION SELECT 'Rabu', DATE_ADD(CURDATE(), INTERVAL(3-DAYOFWEEK(CURDATE())) DAY) AS tanggal
+            UNION SELECT 'Kamis', DATE_ADD(CURDATE(), INTERVAL(4-DAYOFWEEK(CURDATE())) DAY) AS tanggal
+            UNION SELECT 'Jumat', DATE_ADD(CURDATE(), INTERVAL(5-DAYOFWEEK(CURDATE())) DAY) AS tanggal
+            UNION SELECT 'Sabtu', DATE_ADD(CURDATE(), INTERVAL(6-DAYOFWEEK(CURDATE())) DAY) AS tanggal
+            ) AS tgl
+            LEFT JOIN presensi ON tgl.tanggal = presensi.tanggal AND presensi.karyawan_id = 9
+            WHERE MONTH(tgl.tanggal) = MONTH(CURDATE())
+            GROUP BY tgl.hari, tgl.tanggal
+            ORDER BY tgl.tanggal
+            """
+            qs = Presensi.objects.raw(sql)
+
+            serializer = KehadiranRekapSerializer(qs, many=True)
+            return Response({"data": serializer.data})
