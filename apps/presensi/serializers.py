@@ -162,3 +162,10 @@ class KehadiranBulanIniSerializer(serializers.Serializer):
     hadir = serializers.IntegerField()
     terlambat = serializers.IntegerField()
     tidak_hadir = serializers.IntegerField()
+
+
+class KehadiranRekapSerializer(serializers.Serializer):
+    hari = serializers.CharField()
+    tanggal = serializers.CharField()
+    hadir = serializers.IntegerField()
+    tidak_hadir = serializers.IntegerField()
